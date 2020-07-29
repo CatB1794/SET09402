@@ -56,34 +56,37 @@ namespace ELM.MsgData
     {
         Standard, SIR
     }
-    public enum SIRType
+    public enum SIRTypes
     {
         BombThreat, CustomerAttack, DeviceDamage, PersonalInfoLeak, Raid, SportInjury, StaffAbuse, StaffAttack, SuspiciousIncident, Terrorism, TheftofProperties
     }
 
     public class SIR
     {
-        public static SIRType SetSIR(string sir)
+        public static SIRTypes SetSIR(string sir)
         {
             return sir switch
             {
-                "Bomb Threat" => SIRType.BombThreat,
-                "Customer Attack" => SIRType.CustomerAttack,
-                "Device Damage" => SIRType.DeviceDamage,
-                "Personal Info Leak" => SIRType.PersonalInfoLeak,
-                "Raid" => SIRType.Raid,
-                "Sport Injury" => SIRType.SportInjury,
-                "Staff Abuse" => SIRType.StaffAbuse,
-                "Staff Attack" => SIRType.StaffAttack,
-                "Suspicious Incident" => SIRType.SuspiciousIncident,
-                "Terrorism" => SIRType.Terrorism,
-                "Theft of Properties" => SIRType.TheftofProperties,
+                "Bomb Threat" => SIRTypes.BombThreat,
+                "Customer Attack" => SIRTypes.CustomerAttack,
+                "Device Damage" => SIRTypes.DeviceDamage,
+                "Personal Info Leak" => SIRTypes.PersonalInfoLeak,
+                "Raid" => SIRTypes.Raid,
+                "Sport Injury" => SIRTypes.SportInjury,
+                "Staff Abuse" => SIRTypes.StaffAbuse,
+                "Staff Attack" => SIRTypes.StaffAttack,
+                "Suspicious Incident" => SIRTypes.SuspiciousIncident,
+                "Terrorism" => SIRTypes.Terrorism,
+                "Theft of Properties" => SIRTypes.TheftofProperties,
                 _ => throw new Exception("That is not a valid Significant Incident Report subject.")
             };
         }
+    }
 
+    public class SIRInfo
+    {
         public string CentreCode { get; set; }
-        public SIRType Type { get; set; }
+        public SIRTypes Type { get; set; }
     }
 
     public class Email : Msg
@@ -96,8 +99,7 @@ namespace ELM.MsgData
         public string Address { get; set; }
         public string SbjLine { get; set; }
         public EmailType EmailType { get; set; }
-        public SIRType Incident { get; set; }
-        public SIR NoI { get; set; }
+        public SIRInfo NoI { get; set; }
         public string EmailBody { get; set; }
         public List<string> URL { get; set; }
     }
@@ -122,7 +124,7 @@ namespace ELM.MsgData
 
         public string TwitterID { get; set; }
         public string TweetBody { get; set; }
-        public string Mentions { get; set; }
-        public List<string> Hashtag { get; set; }
+        public List<string> Mentions { get; set; }
+        public List<string> Hashtags { get; set; }
     }
 }

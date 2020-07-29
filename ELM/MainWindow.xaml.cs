@@ -23,6 +23,9 @@ namespace ELM
     /// </summary>
     public partial class MainWindow : Window
     {
+        public static MsgHandler MsgHandler;
+        public static JSONFormatter JSONFormatter;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -30,6 +33,8 @@ namespace ELM
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+            Msg msg = null;
+            string jsonData = "";
             string msgID = msgHeader.Text;
             string msgType = msgID.Substring(0, 1);
             string bodyMsg = msgBody.Text;
@@ -38,7 +43,7 @@ namespace ELM
             {
                 MessageBox.Show("Message Header must be 10 character long and cannot be empty.");
             }
-            else if (!msgType.Contains("E") && !msgType.Contains("e") && !msgType.Contains("S") && !msgType.Contains("s") && !msgType.Contains("T") && !msgType.Contains("t"))
+            else if (!msgType.Contains("E") && !msgType.Contains("S") && !msgType.Contains("T"))
             {
                 MessageBox.Show("Message Header must begin with either E, S or T.");
             }
@@ -59,10 +64,14 @@ namespace ELM
                     if (nlCount < 2)
                     {
                         MessageBox.Show("Email must have a sender address, subject line and message separated by a new line.");
-                        if (!bodyMsg.Contains("@"))
-                        {
-                            MessageBox.Show("Email must have an email address.");
-                        }
+                    }
+                    else if (!bodyMsg.Contains("@"))
+                    {
+                        MessageBox.Show("Email must have an email address.");
+                    }
+                    else if (bodyMsg.Contains("SIR") && nlCount < 5)
+                    {
+                        MessageBox.Show("Incident reports need a centre code and a nature of incident report label.");
                     }
                 }
                 if (msgType == "S" || msgType == "s")
@@ -70,10 +79,10 @@ namespace ELM
                     if(!bodyMsg.Contains("\n"))
                     {
                         MessageBox.Show("SMS must have a sender number and message separated by a new line.");
-                        if (!bodyMsg.StartsWith("+"))
-                        {
-                            MessageBox.Show("SMS must have an international number beginning with +.");
-                        }
+                    }
+                    else if (!bodyMsg.StartsWith("+"))
+                    {
+                        MessageBox.Show("SMS must have an international number beginning with +.");
                     }
                 }
                 if (msgType == "T" || msgType == "t")
@@ -81,11 +90,21 @@ namespace ELM
                     if (!bodyMsg.Contains("\n"))
                     {
                         MessageBox.Show("Tweet must have a Twitter ID and tweet separated by a new line.");
-                        if (!bodyMsg.Contains("@"))
-                        {
-                            MessageBox.Show("Tweet must have a Twitter IDbeginning with @.");
-                        }
                     }
+                    else if (!bodyMsg.Contains("@"))
+                    {
+                        MessageBox.Show("Tweet must have a Twitter ID beginning with @.");
+                    }
+                }
+                try
+                {
+                    msg = MsgHandler.ProcessData(msgID, bodyMsg);
+                    jsonData = JSONFormatter.StoreJSON(msg);
+                    msgOutput.Text = jsonData;
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
                 }
             }
         }
