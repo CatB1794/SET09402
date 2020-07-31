@@ -25,13 +25,10 @@ namespace ELM
     {
         public MsgHandler MsgHandler;
         public JSONFormatter JSONFormatter;
-        public TextFormatter TextFormatter;
 
         public MainWindow()
         {
             InitializeComponent();
-
-            TextFormatter.ReadCSV();
             MsgHandler = new MsgHandler();
             JSONFormatter = new JSONFormatter();
         }
@@ -60,8 +57,22 @@ namespace ELM
                 {
                     Msg msg = MsgHandler.ProcessData(msgID, bodyMsg);
                     string jsonData = JSONFormatter.StoreJSON(msg);
-                    MessageBox.Show(jsonData);
                     msgOutput.Text = jsonData;
+                    if (msg.Type == MsgType.Tweet)
+                    {
+                        string[] mntHT = bodyMsg.Split(new string[] { " ", "\r", "\n" }, StringSplitOptions.None);
+                        for (int i = 1; i < mntHT.Length; i++)
+                        {
+                            if (mntHT[i].StartsWith("@"))
+                            {
+                                trendingMentions.Text += mntHT[i].Trim() + mntHT.Count();
+                            }
+                            if (mntHT[i].StartsWith("#"))
+                            {
+                                trendingMentions.Text += mntHT[i].Trim() + mntHT.Count();
+                            }
+                        }
+                    }
                 }
                 catch (Exception ex)
                 {

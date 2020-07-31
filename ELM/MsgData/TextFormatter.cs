@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Windows;
 
@@ -8,16 +9,15 @@ namespace ELM.MsgData
 {
     public class TextFormatter
     {
-        public string csvPath = @"..\textwords.csv";
         public Dictionary<string, string> txtMsg = new Dictionary<string, string>();
 
         public void ReadCSV()
         {
-            string[] tws = File.ReadAllLines(csvPath);
+            string[] tws = File.ReadAllLines(@"..\textwords.csv");
             foreach (string tw in tws)
             {
                 string[] words = tw.Split(",");
-                txtMsg.Add(words[0], words[1]);
+                txtMsg.Add(words[0].Trim(), words[1]);
             }
         }
 
@@ -25,17 +25,16 @@ namespace ELM.MsgData
         {
             ReadCSV();
             string msg = "";
-            string[] txt = text.Split(" ");
-            for (int i = 0; i < txt.Length; i++)
+            string[] txt = text.Split(new string[] { " ", "\r", "\n" }, StringSplitOptions.None);
+            foreach (string input in txt)
             {
-                //MessageBox.Show(txtMsg.ContainsKey(txt[i]).ToString());
-                if (txtMsg.ContainsKey(txt[i]))
+                if (txtMsg.ContainsKey(input))
                 {
-                    msg += txt[i] + " < " + txtMsg[txt[i]] +" > ";
+                    msg += input + " < " + txtMsg[input] +" > ";
                 }
                 else
                 {
-                    msg += txt[i] + " ";
+                    msg += input + " ";
                 }
             }
             return msg;
