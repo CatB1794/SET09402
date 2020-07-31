@@ -23,18 +23,18 @@ namespace ELM
     /// </summary>
     public partial class MainWindow : Window
     {
-        public static MsgHandler MsgHandler;
-        public static JSONFormatter JSONFormatter;
+        public MsgHandler MsgHandler;
+        public JSONFormatter JSONFormatter;
 
         public MainWindow()
         {
             InitializeComponent();
+            MsgHandler = new MsgHandler();
+            JSONFormatter = new JSONFormatter();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            Msg msg = null;
-            string jsonData = "";
             string msgID = msgHeader.Text;
             string msgType = msgID.Substring(0, 1);
             string bodyMsg = msgBody.Text;
@@ -53,54 +53,15 @@ namespace ELM
             }
             else
             {
-                if (msgType == "E" || msgType == "e")
-                {
-                    int index = -1;
-                    int nlCount = 0;
-                    while ((index = bodyMsg.IndexOf(Environment.NewLine, index + 1)) != -1)
-                    {
-                        nlCount++;
-                    }
-                    if (nlCount < 2)
-                    {
-                        MessageBox.Show("Email must have a sender address, subject line and message separated by a new line.");
-                    }
-                    else if (!bodyMsg.Contains("@"))
-                    {
-                        MessageBox.Show("Email must have an email address.");
-                    }
-                    else if (bodyMsg.Contains("SIR") && nlCount < 5)
-                    {
-                        MessageBox.Show("Incident reports need a centre code and a nature of incident report label.");
-                    }
-                }
-                if (msgType == "S" || msgType == "s")
-                {
-                    if(!bodyMsg.Contains("\n"))
-                    {
-                        MessageBox.Show("SMS must have a sender number and message separated by a new line.");
-                    }
-                    else if (!bodyMsg.StartsWith("+"))
-                    {
-                        MessageBox.Show("SMS must have an international number beginning with +.");
-                    }
-                }
-                if (msgType == "T" || msgType == "t")
-                {
-                    if (!bodyMsg.Contains("\n"))
-                    {
-                        MessageBox.Show("Tweet must have a Twitter ID and tweet separated by a new line.");
-                    }
-                    else if (!bodyMsg.Contains("@"))
-                    {
-                        MessageBox.Show("Tweet must have a Twitter ID beginning with @.");
-                    }
-                }
                 try
                 {
-                    msg = MsgHandler.ProcessData(msgID, bodyMsg);
-                    jsonData = JSONFormatter.StoreJSON(msg);
+                    Msg msg = MsgHandler.ProcessData(msgID, bodyMsg);
+                    string jsonData = JSONFormatter.StoreJSON(msg);
                     msgOutput.Text = jsonData;
+                    if (msg.Type == MsgType.Tweet)
+                    {
+                        trendingMentions.Text = MsgHandler.TwitterList(jsonData);
+                    }
                 }
                 catch (Exception ex)
                 {
