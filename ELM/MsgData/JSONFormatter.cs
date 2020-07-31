@@ -10,73 +10,29 @@ namespace ELM.MsgData
 {
     public class JSONFormatter : MsgHandler
     {
-        public string setPath = @"..\MsgData\";
-
         public string StoreJSON(Msg msg)
         {
-            Email email = new Email();
-            SMS sms = new SMS();
-            Tweet tweet = new Tweet();
-
             if (msg.Type == MsgType.Email)
             {
-                string jsonEmail = JsonSerializer.Serialize<Email>(EmailToJSON(email), new JsonSerializerOptions() { WriteIndented = true });
-                File.WriteAllText(setPath + msg.Type.ToString() + msg.MsgID + ".json", jsonEmail);
+                Email email = (Email)msg;
+                string jsonEmail = JsonSerializer.Serialize<Email>(email);
+                File.WriteAllText(msg.Type.ToString() + msg.MsgID + ".json", jsonEmail);
                 return jsonEmail;
             }
             else if (msg.Type == MsgType.SMS)
             {
-                string jsonSMS = JsonSerializer.Serialize<SMS>(SMSToJSON(sms), new JsonSerializerOptions() { WriteIndented = true });
-                File.WriteAllText(setPath + msg.Type.ToString() + msg.MsgID + ".json", jsonSMS);
-                return jsonSMS;
+                SMS sms = (SMS)msg;
+                string jsonEmail = JsonSerializer.Serialize<SMS>(sms);
+                File.WriteAllText(msg.Type.ToString() + msg.MsgID + ".json", jsonEmail);
+                return jsonEmail;
             }
             else
             {
-                string jsonTweet = JsonSerializer.Serialize<Tweet>(TweetToJSON(tweet), new JsonSerializerOptions() { WriteIndented = true });
-                File.WriteAllText(setPath + msg.Type.ToString() + msg.MsgID + ".json", jsonTweet);
-                return jsonTweet;
+                Tweet tweet = (Tweet)msg;
+                string jsonEmail = JsonSerializer.Serialize<Tweet>(tweet);
+                File.WriteAllText(msg.Type.ToString() + msg.MsgID + ".json", jsonEmail);
+                return jsonEmail;
             }
-        }
-
-        [JsonExtensionData]
-        public Dictionary<string, object> ExtData { get; set; }
-
-        public Email EmailToJSON(Email msg)
-        {
-            msg.MsgID = this.MsgID;
-            msg.Address = ((JsonElement)ExtData["EmailAddress"]).GetString();
-            msg.SbjLine = ((JsonElement)ExtData["SubjectLine"]).GetString();
-            msg.EmailBody = ((JsonElement)ExtData["EmailBody"]).GetString();
-
-            return msg;
-        }
-
-        public SMS SMSToJSON(SMS msg)
-        {
-            msg.MsgID = this.MsgID;
-            msg.InternationalNumber = ((JsonElement)ExtData["InternationalNumber"]).GetString();
-            msg.SMSBody = ((JsonElement)ExtData["SMSBody"]).GetString();
-            
-            return msg;
-        }
-
-        public Tweet TweetToJSON(Tweet msg)
-        {
-            msg.MsgID = this.MsgID;
-            msg.TwitterID = ((JsonElement)ExtData["TwitterID"]).GetString();
-            msg.TweetBody = ((JsonElement)ExtData["TweetBody"]).GetString();
-            msg.Mentions = new List<string>();
-            foreach (JsonElement json in ((JsonElement)ExtData["Mentions"]).EnumerateArray())
-            {
-                msg.Mentions.Add(json.GetString());
-            }
-            msg.Hashtags = new List<string>();
-            foreach (JsonElement json in ((JsonElement)ExtData["Hashtags"]).EnumerateArray())
-            {
-                msg.Hashtags.Add(json.GetString());
-            }
-            
-            return msg;
         }
     }
 }

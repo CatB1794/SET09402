@@ -16,16 +16,22 @@ namespace ELM.MsgData
             int id = int.Parse(msgID.Substring(1,9));
 
             MsgType type = MsgTypes.FromStr(msgType);
-            switch (type)
+
+            if (type == MsgType.Email)
             {
-                case MsgType.Email:
-                    return ProcessEmail(new Email() { MsgID = id }, msgBody);
-                case MsgType.SMS:
-                    return ProcessSMS(new SMS() { MsgID = id }, msgBody);
-                case MsgType.Tweet:
-                    return ProcessTweet(new Tweet() { MsgID = id }, msgBody);
-                default:
-                    throw new Exception();
+                return ProcessEmail(new Email() { MsgID = id }, msgBody);
+            }
+            else if (type == MsgType.SMS)
+            {
+                return ProcessSMS(new SMS() { MsgID = id }, msgBody);
+            }
+            else if (type == MsgType.Tweet)
+            {
+                return ProcessTweet(new Tweet() { MsgID = id }, msgBody);
+            }
+            else
+            {
+                throw new Exception();
             }
         }
 
@@ -107,6 +113,8 @@ namespace ELM.MsgData
 
         public SMS ProcessSMS(SMS input, string content)
         {
+            TextFormatter = new TextFormatter();
+
             if (!content.Contains("\n"))
             {
                 throw new Exception("SMS must have a sender number and message separated by a new line.");
@@ -137,7 +145,7 @@ namespace ELM.MsgData
             }
             else
             {
-                input.SMSBody = TextFormatter.FormatTxt(msgTxt.ToString());
+                input.SMSBody = TextFormatter.FormatMsg(msgTxt.ToString());
             }
             
             return input;
@@ -145,6 +153,8 @@ namespace ELM.MsgData
 
         public Tweet ProcessTweet(Tweet input, string content)
         {
+            TextFormatter = new TextFormatter();
+
             if (!content.Contains("\n"))
             {
                 throw new Exception("Tweet must have a Twitter ID and tweet separated by a new line.");
@@ -174,24 +184,31 @@ namespace ELM.MsgData
             }
             else
             {
-                input.TweetBody = TextFormatter.FormatTxt(msgTxt.ToString());
+                MessageBox.Show(msgTxt.ToString());
+                input.TweetBody = TextFormatter.FormatMsg(msgTxt.ToString());
             }
 
             input.Mentions = new List<string>();
             input.Hashtags = new List<string>();
             for (int i = 1; i < msgTxt.Length; i++)
             {
-                if (msgTxt[i].ToString().Contains("@"))
+                if (msgTxt[i].ToString().StartsWith("@"))
                 {
                     input.Mentions.Add(msgTxt[i].ToString());
                 }
-                if (msgTxt[i].ToString().Contains("#"))
+                if (msgTxt[i].ToString().StartsWith("#"))
                 {
                     input.Hashtags.Add(msgTxt[i].ToString());
                 }
             }
 
             return input;
+        }
+
+        public string TwitterList(string twtlist)
+        {
+            string list = "";
+            return list;
         }
     }
 }

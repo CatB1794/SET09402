@@ -2,36 +2,43 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using System.Windows;
 
 namespace ELM.MsgData
 {
     public class TextFormatter
     {
-        public string textwordsPath = @"..\MsgData\textwords.csv";
+        public string csvPath = @"..\textwords.csv";
         public Dictionary<string, string> txtMsg = new Dictionary<string, string>();
 
         public void ReadCSV()
         {
-            string[] textwords = File.ReadAllLines(textwordsPath);
-
-            foreach (string txtword in textwords)
+            string[] tws = File.ReadAllLines(csvPath);
+            foreach (string tw in tws)
             {
-                string[] words = txtword.Split(",");
-                txtMsg.Add(words[0].Trim(), words[1]);
+                string[] words = tw.Split(",");
+                txtMsg.Add(words[0], words[1]);
             }
         }
 
-        public string FormatTxt(string text)
+        public string FormatMsg(string text)
         {
+            ReadCSV();
+            string msg = "";
             string[] txt = text.Split(" ");
             for (int i = 0; i < txt.Length; i++)
             {
+                //MessageBox.Show(txtMsg.ContainsKey(txt[i]).ToString());
                 if (txtMsg.ContainsKey(txt[i]))
                 {
-                    txt[i] += "< "+ txtMsg[txt[i]] +" > ";
+                    msg += txt[i] + " < " + txtMsg[txt[i]] +" > ";
+                }
+                else
+                {
+                    msg += txt[i] + " ";
                 }
             }
-            return string.Join(" ", txt);
+            return msg;
         }
     }
 }
