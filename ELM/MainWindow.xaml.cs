@@ -14,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using ELM.MsgData;
 
 namespace ELM
 {
@@ -22,9 +23,17 @@ namespace ELM
     /// </summary>
     public partial class MainWindow : Window
     {
+        public MsgHandler MsgHandler;
+        public JSONFormatter JSONFormatter;
+        public TextFormatter TextFormatter;
+
         public MainWindow()
         {
             InitializeComponent();
+
+            TextFormatter.ReadCSV();
+            MsgHandler = new MsgHandler();
+            JSONFormatter = new JSONFormatter();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -37,7 +46,7 @@ namespace ELM
             {
                 MessageBox.Show("Message Header must be 10 character long and cannot be empty.");
             }
-            else if (!msgType.Contains("E") && !msgType.Contains("e") && !msgType.Contains("S") && !msgType.Contains("s") && !msgType.Contains("T") && !msgType.Contains("t"))
+            else if (!msgType.Contains("E") && !msgType.Contains("S") && !msgType.Contains("T"))
             {
                 MessageBox.Show("Message Header must begin with either E, S or T.");
             }
@@ -47,47 +56,16 @@ namespace ELM
             }
             else
             {
-                if (msgType == "E" || msgType == "e")
+                try
                 {
-                    int index = -1;
-                    int nlCount = 0;
-                    while ((index = bodyMsg.IndexOf(Environment.NewLine, index + 1)) != -1)
-                    {
-                        nlCount++;
-                    }
-                    if (nlCount < 2)
-                    {
-                        MessageBox.Show("Email must have a sender address, subject line and message separated by a new line.");
-                        if (!bodyMsg.Contains("@"))
-                        {
-                            MessageBox.Show("Email must have an email address.");
-                        }
-                    }
+                    Msg msg = MsgHandler.ProcessData(msgID, bodyMsg);
+                    string jsonData = JSONFormatter.StoreJSON(msg);
+                    MessageBox.Show(jsonData);
+                    msgOutput.Text = jsonData;
                 }
-                if (msgType == "S" || msgType == "s")
+                catch (Exception ex)
                 {
-                    if(!bodyMsg.Contains("\n"))
-                    {
-                        MessageBox.Show("SMS must have a sender number and message separated by a new line.");
-                        if (!bodyMsg.StartsWith("+"))
-                        {
-                            MessageBox.Show("SMS must have an international number beginning with +.");
-                        }
-                    }
-                    /*string sms = MsgHandler.ProcessSMS(msgID, bodyMsg);
-                    msgOutput.Text = sms;
-                    JSONFormatter.StoreJSON(msgID, sms);*/
-                }
-                if (msgType == "T" || msgType == "t")
-                {
-                    if (!bodyMsg.Contains("\n"))
-                    {
-                        MessageBox.Show("Tweet must have a Twitter ID and tweet separated by a new line.");
-                        if (!bodyMsg.Contains("@"))
-                        {
-                            MessageBox.Show("Tweet must have a Twitter IDbeginning with @.");
-                        }
-                    }
+                    MessageBox.Show(ex.Message);
                 }
             }
         }
