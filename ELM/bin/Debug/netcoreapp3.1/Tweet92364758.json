@@ -1,0 +1,12 @@
+{
+  "TwitterID": "@John",
+  "TweetBody": "  @Kate  Same  #KMN   ",
+  "Mentions": [
+    "@Kate"
+  ],
+  "Hashtags": [
+    "#KMN"
+  ],
+  "Type": 2,
+  "MsgID": 92364758
+}

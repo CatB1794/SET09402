@@ -62,19 +62,22 @@ namespace ELM
                     msgOutput.Text = jsonData;
                     if (msg.Type == MsgType.Tweet)
                     {
-                        trendingMentions.Clear();
                         int ht = 0;
                         string[] mntHT = bodyMsg.Split(new string[] { " ", "\r", "\n" }, StringSplitOptions.None);
                         for (int i = 1; i < mntHT.Length; i++)
                         {
+                            if (trending.Text.Contains(mntHT[i]))
+                            {
+                                ht ++; // need to fix
+                            }
                             if (mntHT[i].StartsWith("@"))
                             {
-                                trendingMentions.Text += mntHT[i].Trim();
+                                mentions.Text += mntHT[i].Trim() + "; ";
                             }
                             if (mntHT[i].StartsWith("#"))
                             {
-                                ht ++;
-                                trendingMentions.Text += mntHT[i].Trim() + " " + ht + "\n";
+                                trending.Clear();
+                                trending.Text += mntHT[i].Trim() + " " + ht + "; ";
                             }
                         }
                     }

@@ -43,18 +43,13 @@ namespace ELM.MsgData
 
         public string DisplayJSON(string id)
         {
-            MsgHandler msg = new MsgHandler();
-            if (msg.Type == MsgType.Email)
+            try
             {
                 return File.ReadAllText(id + ".json");
             }
-            else if (msg.Type == MsgType.SMS)
+            catch
             {
-                return File.ReadAllText(id + ".json");
-            }
-            else
-            {
-                return File.ReadAllText(id + ".json");
+                throw new Exception("Incorrect ID, file does not exist.");
             }
         }
     }
