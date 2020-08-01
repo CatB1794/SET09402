@@ -10,28 +10,46 @@ namespace ELM.MsgData
 {
     public class JSONFormatter : MsgHandler
     {
+        public MsgHandler MsgHandler;
         public string StoreJSON(Msg msg)
         {
+            var options = new JsonSerializerOptions
+            {
+                WriteIndented = true
+            };
+
             if (msg.Type == MsgType.Email)
             {
                 Email email = (Email)msg;
-                string jsonEmail = JsonSerializer.Serialize<Email>(email);
+                string jsonEmail = JsonSerializer.Serialize<Email>(email, options);
                 File.WriteAllText(msg.Type.ToString() + msg.MsgID + ".json", jsonEmail);
                 return jsonEmail;
             }
             else if (msg.Type == MsgType.SMS)
             {
                 SMS sms = (SMS)msg;
-                string jsonEmail = JsonSerializer.Serialize<SMS>(sms);
+                string jsonEmail = JsonSerializer.Serialize<SMS>(sms, options);
                 File.WriteAllText(msg.Type.ToString() + msg.MsgID + ".json", jsonEmail);
                 return jsonEmail;
             }
             else
             {
                 Tweet tweet = (Tweet)msg;
-                string jsonEmail = JsonSerializer.Serialize<Tweet>(tweet);
+                string jsonEmail = JsonSerializer.Serialize<Tweet>(tweet, options);
                 File.WriteAllText(msg.Type.ToString() + msg.MsgID + ".json", jsonEmail);
                 return jsonEmail;
+            }
+        }
+
+        public string DisplayJSON(string id)
+        {
+            try
+            {
+                return File.ReadAllText(id + ".json");
+            }
+            catch
+            {
+                throw new Exception("Incorrect ID, file does not exist.");
             }
         }
     }

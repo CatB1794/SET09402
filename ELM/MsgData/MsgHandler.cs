@@ -64,10 +64,11 @@ namespace ELM.MsgData
             }
 
             StringBuilder msgTxt = new StringBuilder();
-            for(int i = 3; i < msg.Length; i++)
+            for (int i = 3; i < msg.Length; i++)
             {
                 msgTxt.AppendLine(msg[i]);
             }
+
             input.URL = new List<string>();
             string[] urls = msgTxt.ToString().Split(new string[] { " ", "\r", "\n" }, StringSplitOptions.None);
             for (int i = 0; i < urls.Length; i++)

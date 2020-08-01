@@ -5,16 +5,29 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ELM"
         mc:Ignorable="d"
-        Title="MainWindow" Height="390" Width="770">
+        Title="MainWindow" Height="410" Width="900">
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="0*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="19*"/>
+            <ColumnDefinition Width="26*"/>
+        </Grid.ColumnDefinitions>
         <TextBox x:Name="msgHeader" HorizontalAlignment="Left" Height="25" Margin="30,45,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="190" ToolTip="Header should begin with E for Email, S for SMS or T for Tweet, followed by 9 digits"/>
         <Label Content="Message Header" HorizontalAlignment="Left" Height="30" Margin="30,10,0,0" VerticalAlignment="Top" Width="190"/>
-        <Label Content="Message Body" HorizontalAlignment="Left" Height="30" Margin="245,10,0,0" VerticalAlignment="Top" Width="225"/>
-        <TextBox x:Name="msgBody" HorizontalAlignment="Left" Height="295" Margin="245,45,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="225" ToolTip="If message is an Email then the body should contain: email address - subject line - message text.&#x0a;If the message is SMS then the body should contain: international number (beginning with +) - message text.&#x0a;If the message is a Tweet then the body should contain: twitter ID - message text." AcceptsReturn="True"/>
-        <Button x:Name="msgInput" HorizontalAlignment="Left" Height="30" Margin="30,80,0,0" VerticalAlignment="Top" Width="190" Click="Button_Click" Content="Message Input"/>
-        <Label Content="Message Output" HorizontalAlignment="Left" Height="30" Margin="500,10,0,0" VerticalAlignment="Top" Width="190"/>
-        <TextBox x:Name="msgOutput" HorizontalAlignment="Left" Height="295" Margin="500,45,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="240" IsReadOnly="True" IsEnabled="False" IsUndoEnabled="False"/>
-        <TextBox x:Name="trendingMentions" HorizontalAlignment="Left" Height="150" Margin="30,190,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="190" IsEnabled="False" IsUndoEnabled="False" IsReadOnly="True"/>
-        <Label Content="Trending and Mentions" HorizontalAlignment="Left" Height="30" Margin="30,155,0,0" VerticalAlignment="Top" Width="190"/>
+        <Label Content="Message Body" HorizontalAlignment="Left" Height="30" Margin="245,10,0,0" VerticalAlignment="Top" Width="225" Grid.ColumnSpan="2"/>
+        <TextBox x:Name="msgBody" HorizontalAlignment="Left" Height="315" Margin="245,45,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="225" ToolTip="If message is an Email then the body should contain: email address - subject line - message text.&#x0a;If the message is SMS then the body should contain: international number (beginning with +) - message text.&#x0a;If the message is a Tweet then the body should contain: twitter ID - message text." AcceptsReturn="True" Grid.ColumnSpan="2"/>
+        <Button x:Name="msgInput" HorizontalAlignment="Left" Height="25" Margin="30,80,0,0" VerticalAlignment="Top" Width="190" Click="Button_Click" Content="Message Input"/>
+        <Label Content="Message Output" HorizontalAlignment="Left" Height="30" Margin="120,10,0,0" VerticalAlignment="Top" Width="190" Grid.Column="1"/>
+        <TextBox x:Name="msgOutput" HorizontalAlignment="Left" Height="315" Margin="120,45,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="240" IsReadOnly="True" IsEnabled="False" IsUndoEnabled="False" Grid.Column="1"/>
+        <Button Content="Message Select" HorizontalAlignment="Left" Height="25" Margin="30,115,0,0" VerticalAlignment="Top" Width="190" Click="Button_Click_1"/>
+        <TextBox x:Name="trending" HorizontalAlignment="Left" Height="70" Margin="30,180,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="190" IsEnabled="False" IsReadOnly="True"/>
+        <Label Content="Trending" HorizontalAlignment="Left" Height="30" Margin="30,150,0,0" VerticalAlignment="Top" Width="190"/>
+        <TextBox x:Name="mentions" HorizontalAlignment="Left" Height="70" Margin="30,290,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="190" IsEnabled="False" IsReadOnly="True"/>
+        <Label Content="Mentions" HorizontalAlignment="Left" Height="30" Margin="30,260,0,0" VerticalAlignment="Top" Width="190"/>
+        <Label Content="Index" HorizontalAlignment="Left" Height="30" Margin="380,10,0,0" VerticalAlignment="Top" Width="115" Grid.Column="1"/>
+        <TextBox HorizontalAlignment="Left" Height="315" Margin="380,45,0,0" Text="MessageType:&#xA;0 - Email&#xA;1 - SMS&#xA;2 - Tweet&#xD;&#xA;&#xD;&#xA;EmailType:&#xA;0 - Standard&#xA;1 - SIR&#xA;&#xA;SIRType:&#xA;0 - Bomb Threat&#xA;1 - Customer Attack&#xA;2 - Device Damage&#xA;3 - Personal Info Leak&#xA;4 - Raid&#xA;5 - Sport Injury&#xA;6 - Staff Abuse&#xA;7 - Staff Attack&#xA;8 - Suspicious Incident&#xA;9 - Terrorism&#xA;10 - Theft of Properties" TextWrapping="Wrap" VerticalAlignment="Top" Width="115" Grid.Column="1" FontSize="10" IsEnabled="False" IsReadOnly="True"/>
     </Grid>
 </Window>

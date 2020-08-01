@@ -1,6 +1,7 @@
 ﻿using System;
 using System.CodeDom;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
@@ -15,6 +16,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using ELM.MsgData;
+using Microsoft.Win32;
 
 namespace ELM
 {
@@ -60,16 +62,22 @@ namespace ELM
                     msgOutput.Text = jsonData;
                     if (msg.Type == MsgType.Tweet)
                     {
+                        int ht = 0;
                         string[] mntHT = bodyMsg.Split(new string[] { " ", "\r", "\n" }, StringSplitOptions.None);
                         for (int i = 1; i < mntHT.Length; i++)
                         {
+                            if (trending.Text.Contains(mntHT[i]))
+                            {
+                                ht ++; // need to fix
+                            }
                             if (mntHT[i].StartsWith("@"))
                             {
-                                trendingMentions.Text += mntHT[i].Trim() + mntHT.Count();
+                                mentions.Text += mntHT[i].Trim() + "; ";
                             }
                             if (mntHT[i].StartsWith("#"))
                             {
-                                trendingMentions.Text += mntHT[i].Trim() + mntHT.Count();
+                                trending.Clear();
+                                trending.Text += mntHT[i].Trim() + " " + ht + "; ";
                             }
                         }
                     }
@@ -79,6 +87,13 @@ namespace ELM
                     MessageBox.Show(ex.Message);
                 }
             }
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            string msgID = msgHeader.Text;
+            string loadMsg = JSONFormatter.DisplayJSON(msgID);
+            msgOutput.Text = loadMsg;
         }
     }
 }
