@@ -8,36 +8,22 @@ namespace ELM.MsgData
     {
         public static MsgType FromStr(string str)
         {
-            MsgType msgType = str switch
+            if (str == "E")
             {
-                "E" => MsgType.Email,
-                "S" => MsgType.SMS,
-                "T" => MsgType.Tweet,
-                _ => throw new Exception("Message must be either an email, sms or a tweet.\nPlease set to either E, S, or T.")
-            };
-            return msgType;
-        }
-
-        public static string ShowType(this MsgType msgType)
-        {
-            return msgType switch
+                return MsgType.Email;
+            }
+            else if (str ==  "S")
             {
-                MsgType.Email => "Email",
-                MsgType.SMS => "SMS",
-                MsgType.Tweet => "Tweet",
-                _ => throw new Exception()
-            };
-        }
-
-        public static string SetType(this MsgType msgType)
-        {
-            return msgType switch
+                return MsgType.SMS;
+            }
+            else if (str == "T")
             {
-                MsgType.Email => "E",
-                MsgType.SMS => "S",
-                MsgType.Tweet => "T",
-                _ => throw new Exception()
-            };
+                return MsgType.Tweet;
+            }
+            else
+            {
+                throw new Exception("Message must be either an email, sms or a tweet.\nPlease set to either E, S, or T.");
+            }
         }
     }
 
@@ -65,21 +51,54 @@ namespace ELM.MsgData
     {
         public static SIRTypes SetSIR(string sir)
         {
-            return sir switch
+            if (sir == "Bomb Threat")
             {
-                "Bomb Threat" => SIRTypes.BombThreat,
-                "Customer Attack" => SIRTypes.CustomerAttack,
-                "Device Damage" => SIRTypes.DeviceDamage,
-                "Personal Info Leak" => SIRTypes.PersonalInfoLeak,
-                "Raid" => SIRTypes.Raid,
-                "Sport Injury" => SIRTypes.SportInjury,
-                "Staff Abuse" => SIRTypes.StaffAbuse,
-                "Staff Attack" => SIRTypes.StaffAttack,
-                "Suspicious Incident" => SIRTypes.SuspiciousIncident,
-                "Terrorism" => SIRTypes.Terrorism,
-                "Theft of Properties" => SIRTypes.TheftofProperties,
-                _ => throw new Exception("That is not a valid Significant Incident Report subject.")
-            };
+                return SIRTypes.BombThreat;
+            }
+            else if (sir == "Customer Attack")
+            {
+                return SIRTypes.CustomerAttack;
+            }
+            else if (sir == "Device Damage")
+            {
+                return SIRTypes.DeviceDamage;
+            }
+            else if (sir == "Personal Info Leak")
+            {
+                return SIRTypes.PersonalInfoLeak;
+            }
+            else if (sir == "Raid")
+            {
+                return SIRTypes.Raid;
+            }
+            else if (sir == "Sport Injury")
+            {
+                return SIRTypes.SportInjury;
+            }
+            else if (sir == "Staff Abuse")
+            {
+                return SIRTypes.StaffAbuse;
+            }
+            else if (sir == "Staff Attack")
+            {
+                return SIRTypes.StaffAttack;
+            }
+            else if (sir == "Suspicious Incident")
+            {
+                return SIRTypes.SuspiciousIncident;
+            }
+            else if (sir == "Terrorism")
+            {
+                return SIRTypes.Terrorism;
+            }
+            else if (sir == "Theft of Properties")
+            {
+                return SIRTypes.TheftofProperties;
+            }
+            else
+            {
+                throw new Exception("That is not a valid Significant Incident Report subject.");
+            }
         }
     }
 

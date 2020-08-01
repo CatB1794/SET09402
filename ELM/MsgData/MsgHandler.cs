@@ -8,65 +8,93 @@ namespace ELM.MsgData
 {
     public class MsgHandler : Msg
     {
+        public TextFormatter TextFormatter;
+
         public Msg ProcessData(string msgID, string msgBody)
         {
             string msgType = msgID.Substring(0,1);
             int id = int.Parse(msgID.Substring(1,9));
 
             MsgType type = MsgTypes.FromStr(msgType);
-            switch (type)
+
+            if (type == MsgType.Email)
             {
-                case MsgType.Email:
-                    return ProcessEmail(new Email() { MsgID = id }, msgBody);
-                case MsgType.SMS:
-                    return ProcessSMS(new SMS() { MsgID = id }, msgBody);
-                case MsgType.Tweet:
-                    return ProcessTweet(new Tweet() { MsgID = id }, msgBody);
-                default:
-                    throw new Exception();
+                return ProcessEmail(new Email() { MsgID = id }, msgBody);
+            }
+            else if (type == MsgType.SMS)
+            {
+                return ProcessSMS(new SMS() { MsgID = id }, msgBody);
+            }
+            else if (type == MsgType.Tweet)
+            {
+                return ProcessTweet(new Tweet() { MsgID = id }, msgBody);
+            }
+            else
+            {
+                throw new Exception();
             }
         }
 
         public Email ProcessEmail(Email input, string content)
         {
-            string[] msg = content.Split("\n");
-            input.Address = msg[0];
-            input.SbjLine = msg[1];
-            if (msg[1].Length > 20)
+            if (!content.Contains("@"))
             {
-                MessageBox.Show("Subject line has a maximum of 20 characters.");
+                throw new Exception("Email must have an email address.");
+            }
+            int index = -1;
+            int nlCount = 0;
+            while ((index = content.IndexOf(Environment.NewLine, index + 1)) != -1)
+            {
+                nlCount++;
+            }
+            if (nlCount < 2)
+            {
+                throw new Exception("Email must have a sender address, subject line and message separated by a new line.");
+            }
+            else if (content.Contains("SIR") && nlCount < 4)
+            {
+                throw new Exception("Incident reports need a centre code and a nature of incident report label.");
+            }
+            string[] msg = content.Split(new string[] { "\r", "\n" }, StringSplitOptions.None);
+            input.Address = msg[0];
+            input.SbjLine = msg[2];
+            if (msg[2].Length > 20)
+            {
+                throw new Exception("Subject line has a maximum of 20 characters.");
             }
 
             StringBuilder msgTxt = new StringBuilder();
-            for(int i = 2; i < msg.Length; i++)
+            for(int i = 3; i < msg.Length; i++)
             {
                 msgTxt.AppendLine(msg[i]);
             }
+            input.URL = new List<string>();
+            string[] urls = msgTxt.ToString().Split(new string[] { " ", "\r", "\n" }, StringSplitOptions.None);
+            for (int i = 0; i < urls.Length; i++)
+            {
+                if (urls[i].Trim().StartsWith("www.") || urls[i].Trim().StartsWith("http"))
+                {
+                    input.URL.Add(urls[i]);
+                    msgTxt.Replace(urls[i], "<URL Quarantined>");
+                    TextWriter tw = new StreamWriter("QuarantinedList" + input.MsgID + ".txt");
+                    foreach (string str in urls)
+                    {
+                        if (str.StartsWith("www.") || str.StartsWith("http"))
+                        {
+                            tw.WriteLine(str);
+                        }
+                    }
+                    tw.Close();
+                }
+            }
             if (msgTxt.Length > 1028)
             {
-                MessageBox.Show("Email has a maximum of 1028 characters.");
+                throw new Exception("Email has a maximum of 1028 characters.");
             }
             else
             {
                 input.EmailBody = msgTxt.ToString();
             }
-
-            input.URL = new List<string>();
-            for (int i = 2; i < msg.Length; i++)
-            {
-                if (msgTxt[i].ToString().Contains("www."))
-                {
-                    input.URL.Add(msgTxt[i].ToString());
-                }
-                msgTxt.Replace(input.URL.ToString(), "<URL Quarantined>");
-            }
-            TextWriter tw = new StreamWriter("QuarantinedList.txt");
-
-            foreach (String str in input.URL)
-            {
-                tw.WriteLine(str);
-            }
-            tw.Close();
 
             if (!input.SbjLine.Contains("SIR"))
             {
@@ -76,8 +104,8 @@ namespace ELM.MsgData
             }
             else
             {
-                string centreCode = msg[2];
-                string noi = msg[3];
+                string centreCode = msg[4].Trim();
+                string noi = msg[6].Trim();
                 input.EmailType = EmailType.SIR;
                 input.NoI = new SIRInfo();
                 input.NoI.CentreCode = centreCode;
@@ -88,11 +116,21 @@ namespace ELM.MsgData
 
         public SMS ProcessSMS(SMS input, string content)
         {
-            string[] msg = content.Split("\n");
+            TextFormatter = new TextFormatter();
+
+            if (!content.Contains("\n"))
+            {
+                throw new Exception("SMS must have a sender number and message separated by a new line.");
+            }
+            if (!content.StartsWith("+"))
+            {
+                throw new Exception("SMS must have an international number beginning with +.");
+            }
+            string[] msg = content.Split(new string[] { " ", "\r", "\n" }, StringSplitOptions.None);
             string num = msg[0].Replace("+", "");
             if(num.Length > 15 || num.Length < 8)
             {
-                MessageBox.Show("Not a valid international number.");
+                throw new Exception("Not a valid international number.");
             } 
             else
             {
@@ -106,11 +144,11 @@ namespace ELM.MsgData
             }
             if (msgTxt.Length > 140)
             {
-                MessageBox.Show("SMS has a maximum of 140 characters.");
+                throw new Exception("SMS has a maximum of 140 characters.");
             }
             else
             {
-                input.SMSBody = msgTxt.ToString();
+                input.SMSBody = TextFormatter.FormatMsg(msgTxt.ToString());
             }
             
             return input;
@@ -118,10 +156,20 @@ namespace ELM.MsgData
 
         public Tweet ProcessTweet(Tweet input, string content)
         {
-            string[] msg = content.Split("\n");
+            TextFormatter = new TextFormatter();
+
+            if (!content.Contains("\n"))
+            {
+                throw new Exception("Tweet must have a Twitter ID and tweet separated by a new line.");
+            }
+            if (!content.StartsWith("@"))
+            {
+                throw new Exception("Tweet must have a Twitter ID beginning with @.");
+            }
+            string[] msg = content.Split(new string[] { " ", "\r", "\n" }, StringSplitOptions.None);
             if (msg[0].Length > 15)
             {
-                MessageBox.Show("Not a valid Twitter ID.");
+                throw new Exception("Not a valid Twitter ID.");
             }
             else
             {
@@ -135,24 +183,25 @@ namespace ELM.MsgData
             }
             if (msgTxt.Length > 140)
             {
-                MessageBox.Show("Tweets have a maximum of 140 characters.");
+                throw new Exception("Tweets have a maximum of 140 characters.");
             }
             else
             {
-                input.TweetBody = msgTxt.ToString();
+                input.TweetBody = TextFormatter.FormatMsg(msgTxt.ToString());
             }
 
             input.Mentions = new List<string>();
             input.Hashtags = new List<string>();
-            for (int i = 1; i < msgTxt.Length; i++)
+            string[] mentionHastag = msgTxt.ToString().Split(new string[] { " ", "\r", "\n" }, StringSplitOptions.None);
+            for (int i = 0; i < mentionHastag.Length; i++)
             {
-                if (msgTxt[i].ToString().Contains("@"))
+                if (mentionHastag[i].StartsWith("@"))
                 {
-                    input.Mentions.Add(msgTxt[i].ToString());
+                    input.Mentions.Add(mentionHastag[i].Trim());
                 }
-                if (msgTxt[i].ToString().Contains("#"))
+                if (mentionHastag[i].StartsWith("#"))
                 {
-                    input.Hashtags.Add(msgTxt[i].ToString());
+                    input.Hashtags.Add(mentionHastag[i].Trim());
                 }
             }
 
