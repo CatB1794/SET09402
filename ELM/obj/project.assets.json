@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Chat\\Documents\\Chat\\Uni\\SE Y3\\CW\\ELM\\ELM.csproj",
+      "projectUniqueName": "C:\\Users\\Chat\\Documents\\Chat\\Uni\\SE Y3\\ELMApp\\ELM\\ELM.csproj",
       "projectName": "ELM",
-      "projectPath": "C:\\Users\\Chat\\Documents\\Chat\\Uni\\SE Y3\\CW\\ELM\\ELM.csproj",
+      "projectPath": "C:\\Users\\Chat\\Documents\\Chat\\Uni\\SE Y3\\ELMApp\\ELM\\ELM.csproj",
       "packagesPath": "C:\\Users\\Chat\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Chat\\Documents\\Chat\\Uni\\SE Y3\\CW\\ELM\\obj\\",
+      "outputPath": "C:\\Users\\Chat\\Documents\\Chat\\Uni\\SE Y3\\ELMApp\\ELM\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Chat\\AppData\\Roaming\\NuGet\\NuGet.Config",

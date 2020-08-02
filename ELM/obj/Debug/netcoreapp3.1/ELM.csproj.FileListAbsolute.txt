@@ -17,3 +17,59 @@ C:\Users\Chat\Documents\Chat\Uni\SE Y3\CW\ELM\obj\Debug\netcoreapp3.1\ELM.csproj
 C:\Users\Chat\Documents\Chat\Uni\SE Y3\CW\ELM\obj\Debug\netcoreapp3.1\ELM.dll
 C:\Users\Chat\Documents\Chat\Uni\SE Y3\CW\ELM\obj\Debug\netcoreapp3.1\ELM.pdb
 C:\Users\Chat\Documents\Chat\Uni\SE Y3\CW\ELM\obj\Debug\netcoreapp3.1\ELM.genruntimeconfig.cache
+D:\Uni\Uni Y3\Software Engineering\CW\ELM\bin\Debug\netcoreapp3.1\ELM.exe
+D:\Uni\Uni Y3\Software Engineering\CW\ELM\bin\Debug\netcoreapp3.1\ELM.deps.json
+D:\Uni\Uni Y3\Software Engineering\CW\ELM\bin\Debug\netcoreapp3.1\ELM.runtimeconfig.json
+D:\Uni\Uni Y3\Software Engineering\CW\ELM\bin\Debug\netcoreapp3.1\ELM.runtimeconfig.dev.json
+D:\Uni\Uni Y3\Software Engineering\CW\ELM\bin\Debug\netcoreapp3.1\ELM.dll
+D:\Uni\Uni Y3\Software Engineering\CW\ELM\bin\Debug\netcoreapp3.1\ELM.pdb
+D:\Uni\Uni Y3\Software Engineering\CW\ELM\obj\Debug\netcoreapp3.1\ELM.csprojAssemblyReference.cache
+D:\Uni\Uni Y3\Software Engineering\CW\ELM\obj\Debug\netcoreapp3.1\MainWindow.g.cs
+D:\Uni\Uni Y3\Software Engineering\CW\ELM\obj\Debug\netcoreapp3.1\App.g.cs
+D:\Uni\Uni Y3\Software Engineering\CW\ELM\obj\Debug\netcoreapp3.1\ELM_MarkupCompile.cache
+D:\Uni\Uni Y3\Software Engineering\CW\ELM\obj\Debug\netcoreapp3.1\ELM_MarkupCompile.lref
+D:\Uni\Uni Y3\Software Engineering\CW\ELM\obj\Debug\netcoreapp3.1\MainWindow.baml
+D:\Uni\Uni Y3\Software Engineering\CW\ELM\obj\Debug\netcoreapp3.1\ELM.g.resources
+D:\Uni\Uni Y3\Software Engineering\CW\ELM\obj\Debug\netcoreapp3.1\ELM.AssemblyInfoInputs.cache
+D:\Uni\Uni Y3\Software Engineering\CW\ELM\obj\Debug\netcoreapp3.1\ELM.AssemblyInfo.cs
+D:\Uni\Uni Y3\Software Engineering\CW\ELM\obj\Debug\netcoreapp3.1\ELM.csproj.CoreCompileInputs.cache
+D:\Uni\Uni Y3\Software Engineering\CW\ELM\obj\Debug\netcoreapp3.1\ELM.dll
+D:\Uni\Uni Y3\Software Engineering\CW\ELM\obj\Debug\netcoreapp3.1\ELM.pdb
+D:\Uni\Uni Y3\Software Engineering\CW\ELM\obj\Debug\netcoreapp3.1\ELM.genruntimeconfig.cache
+D:\Uni\Uni Y3\Software Engineering\ELM\ELM\bin\Debug\netcoreapp3.1\ELM.exe
+D:\Uni\Uni Y3\Software Engineering\ELM\ELM\bin\Debug\netcoreapp3.1\ELM.deps.json
+D:\Uni\Uni Y3\Software Engineering\ELM\ELM\bin\Debug\netcoreapp3.1\ELM.runtimeconfig.json
+D:\Uni\Uni Y3\Software Engineering\ELM\ELM\bin\Debug\netcoreapp3.1\ELM.runtimeconfig.dev.json
+D:\Uni\Uni Y3\Software Engineering\ELM\ELM\bin\Debug\netcoreapp3.1\ELM.dll
+D:\Uni\Uni Y3\Software Engineering\ELM\ELM\bin\Debug\netcoreapp3.1\ELM.pdb
+D:\Uni\Uni Y3\Software Engineering\ELM\ELM\obj\Debug\netcoreapp3.1\ELM.csprojAssemblyReference.cache
+D:\Uni\Uni Y3\Software Engineering\ELM\ELM\obj\Debug\netcoreapp3.1\MainWindow.g.cs
+D:\Uni\Uni Y3\Software Engineering\ELM\ELM\obj\Debug\netcoreapp3.1\App.g.cs
+D:\Uni\Uni Y3\Software Engineering\ELM\ELM\obj\Debug\netcoreapp3.1\ELM_MarkupCompile.cache
+D:\Uni\Uni Y3\Software Engineering\ELM\ELM\obj\Debug\netcoreapp3.1\ELM_MarkupCompile.lref
+D:\Uni\Uni Y3\Software Engineering\ELM\ELM\obj\Debug\netcoreapp3.1\MainWindow.baml
+D:\Uni\Uni Y3\Software Engineering\ELM\ELM\obj\Debug\netcoreapp3.1\ELM.g.resources
+D:\Uni\Uni Y3\Software Engineering\ELM\ELM\obj\Debug\netcoreapp3.1\ELM.AssemblyInfoInputs.cache
+D:\Uni\Uni Y3\Software Engineering\ELM\ELM\obj\Debug\netcoreapp3.1\ELM.AssemblyInfo.cs
+D:\Uni\Uni Y3\Software Engineering\ELM\ELM\obj\Debug\netcoreapp3.1\ELM.csproj.CoreCompileInputs.cache
+D:\Uni\Uni Y3\Software Engineering\ELM\ELM\obj\Debug\netcoreapp3.1\ELM.dll
+D:\Uni\Uni Y3\Software Engineering\ELM\ELM\obj\Debug\netcoreapp3.1\ELM.pdb
+D:\Uni\Uni Y3\Software Engineering\ELM\ELM\obj\Debug\netcoreapp3.1\ELM.genruntimeconfig.cache
+C:\Users\Chat\Documents\Chat\Uni\SE Y3\ELMApp\ELM\bin\Debug\netcoreapp3.1\ELM.exe
+C:\Users\Chat\Documents\Chat\Uni\SE Y3\ELMApp\ELM\bin\Debug\netcoreapp3.1\ELM.deps.json
+C:\Users\Chat\Documents\Chat\Uni\SE Y3\ELMApp\ELM\bin\Debug\netcoreapp3.1\ELM.runtimeconfig.json
+C:\Users\Chat\Documents\Chat\Uni\SE Y3\ELMApp\ELM\bin\Debug\netcoreapp3.1\ELM.runtimeconfig.dev.json
+C:\Users\Chat\Documents\Chat\Uni\SE Y3\ELMApp\ELM\bin\Debug\netcoreapp3.1\ELM.dll
+C:\Users\Chat\Documents\Chat\Uni\SE Y3\ELMApp\ELM\bin\Debug\netcoreapp3.1\ELM.pdb
+C:\Users\Chat\Documents\Chat\Uni\SE Y3\ELMApp\ELM\obj\Debug\netcoreapp3.1\MainWindow.g.cs
+C:\Users\Chat\Documents\Chat\Uni\SE Y3\ELMApp\ELM\obj\Debug\netcoreapp3.1\App.g.cs
+C:\Users\Chat\Documents\Chat\Uni\SE Y3\ELMApp\ELM\obj\Debug\netcoreapp3.1\ELM_MarkupCompile.cache
+C:\Users\Chat\Documents\Chat\Uni\SE Y3\ELMApp\ELM\obj\Debug\netcoreapp3.1\ELM_MarkupCompile.lref
+C:\Users\Chat\Documents\Chat\Uni\SE Y3\ELMApp\ELM\obj\Debug\netcoreapp3.1\MainWindow.baml
+C:\Users\Chat\Documents\Chat\Uni\SE Y3\ELMApp\ELM\obj\Debug\netcoreapp3.1\ELM.g.resources
+C:\Users\Chat\Documents\Chat\Uni\SE Y3\ELMApp\ELM\obj\Debug\netcoreapp3.1\ELM.AssemblyInfoInputs.cache
+C:\Users\Chat\Documents\Chat\Uni\SE Y3\ELMApp\ELM\obj\Debug\netcoreapp3.1\ELM.AssemblyInfo.cs
+C:\Users\Chat\Documents\Chat\Uni\SE Y3\ELMApp\ELM\obj\Debug\netcoreapp3.1\ELM.dll
+C:\Users\Chat\Documents\Chat\Uni\SE Y3\ELMApp\ELM\obj\Debug\netcoreapp3.1\ELM.pdb
+C:\Users\Chat\Documents\Chat\Uni\SE Y3\ELMApp\ELM\obj\Debug\netcoreapp3.1\ELM.genruntimeconfig.cache
+C:\Users\Chat\Documents\Chat\Uni\SE Y3\ELMApp\ELM\obj\Debug\netcoreapp3.1\ELM.csproj.CoreCompileInputs.cache

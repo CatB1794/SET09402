@@ -6,6 +6,11 @@ namespace ELM.MsgData
 {
     public static class MsgTypes
     {
+        /// <summary>
+        /// Takes a string value and if matched returns the corresponding enumerable
+        /// </summary>
+        /// <param name="str"></param>
+        /// <returns></returns>
         public static MsgType FromStr(string str)
         {
             if (str == "E")
@@ -27,87 +32,111 @@ namespace ELM.MsgData
         }
     }
 
+    /// <summary>
+    /// Enumerables for the Msg types
+    /// </summary>
     public enum MsgType
     {
         Email, SMS, Tweet
     }
 
+    /// <summary>
+    /// Gets and sets the Msg type and id
+    /// </summary>
     public class Msg
     {
         public MsgType Type { get; set; }
         public int MsgID { get; set; }
     }
 
+    /// <summary>
+    /// Enumerables for the Email types
+    /// </summary>
     public enum EmailType
     {
         Standard, SIR
     }
-    public enum SIRTypes
+
+    /// <summary>
+    /// Enumerables for the Nature of Incident types
+    /// </summary>
+    public enum NatureOfIncident
     {
         BombThreat, CustomerAttack, DeviceDamage, PersonalInfoLeak, Raid, SportInjury, StaffAbuse, StaffAttack, SuspiciousIncident, Terrorism, TheftofProperties
     }
 
-    public class SIR
+    public class NoI
     {
-        public static SIRTypes SetSIR(string sir)
+        /// <summary>
+        /// Takes a string value and if matched returns the corresponding enumerable
+        /// </summary>
+        /// <param name="sir"></param>
+        /// <returns></returns>
+        public static NatureOfIncident SetNoI(string sir)
         {
             if (sir == "Bomb Threat")
             {
-                return SIRTypes.BombThreat;
+                return NatureOfIncident.BombThreat;
             }
             else if (sir == "Customer Attack")
             {
-                return SIRTypes.CustomerAttack;
+                return NatureOfIncident.CustomerAttack;
             }
             else if (sir == "Device Damage")
             {
-                return SIRTypes.DeviceDamage;
+                return NatureOfIncident.DeviceDamage;
             }
             else if (sir == "Personal Info Leak")
             {
-                return SIRTypes.PersonalInfoLeak;
+                return NatureOfIncident.PersonalInfoLeak;
             }
             else if (sir == "Raid")
             {
-                return SIRTypes.Raid;
+                return NatureOfIncident.Raid;
             }
             else if (sir == "Sport Injury")
             {
-                return SIRTypes.SportInjury;
+                return NatureOfIncident.SportInjury;
             }
             else if (sir == "Staff Abuse")
             {
-                return SIRTypes.StaffAbuse;
+                return NatureOfIncident.StaffAbuse;
             }
             else if (sir == "Staff Attack")
             {
-                return SIRTypes.StaffAttack;
+                return NatureOfIncident.StaffAttack;
             }
             else if (sir == "Suspicious Incident")
             {
-                return SIRTypes.SuspiciousIncident;
+                return NatureOfIncident.SuspiciousIncident;
             }
             else if (sir == "Terrorism")
             {
-                return SIRTypes.Terrorism;
+                return NatureOfIncident.Terrorism;
             }
             else if (sir == "Theft of Properties")
             {
-                return SIRTypes.TheftofProperties;
+                return NatureOfIncident.TheftofProperties;
             }
             else
             {
-                throw new Exception("That is not a valid Significant Incident Report subject.");
+                throw new Exception("That is not a valid Nature of Incident.");
             }
         }
     }
 
-    public class SIRInfo
+    /// <summary>
+    /// Gets and sets the Nature of Incident type and centre code.
+    /// </summary>
+    public class NoIInfo
     {
         public string CentreCode { get; set; }
-        public SIRTypes Type { get; set; }
+        public NatureOfIncident Type { get; set; }
     }
 
+    /// <summary>
+    /// Extends from Msg, gets and sets values for Email object
+    /// </summary>
     public class Email : Msg
     {
         public Email()
@@ -118,11 +147,14 @@ namespace ELM.MsgData
         public string Address { get; set; }
         public string SbjLine { get; set; }
         public EmailType EmailType { get; set; }
-        public SIRInfo NoI { get; set; }
+        public NoIInfo NoI { get; set; }
         public string EmailBody { get; set; }
         public List<string> URL { get; set; }
     }
 
+    /// <summary>
+    /// Extends from Msg, gets and sets values for SMS object
+    /// </summary>
     public class SMS : Msg
     {
         public SMS()
@@ -134,6 +166,9 @@ namespace ELM.MsgData
         public string SMSBody { get; set; }
     }
 
+    /// <summary>
+    /// Extends from Msg, gets and sets values for Tweet object
+    /// </summary>
     public class Tweet : Msg
     {
         public Tweet()
