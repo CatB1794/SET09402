@@ -1,0 +1,12 @@
+{
+  "TwitterID": "@M",
+  "TweetBody": "  @J  boop  #KLM   ",
+  "Mentions": [
+    "@J"
+  ],
+  "Hashtags": [
+    "#KLM"
+  ],
+  "Type": 2,
+  "MsgID": 19283746
+}

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.CodeDom;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -25,17 +26,21 @@ namespace ELM
     /// </summary>
     public partial class MainWindow : Window
     {
-        public MsgHandler MsgHandler;
-        public JSONFormatter JSONFormatter;
+        public MsgHandler msgHandler;
+        public JSONFormatter jSONFormatter;
+        ConcurrentDictionary<string, int>  trendingList;
+        ConcurrentDictionary<string, int> natureOfIncidentList;
 
         public MainWindow()
         {
             InitializeComponent();
-            MsgHandler = new MsgHandler();
-            JSONFormatter = new JSONFormatter();
+            msgHandler = new MsgHandler();
+            jSONFormatter = new JSONFormatter();
+            trendingList = new ConcurrentDictionary<string, int>();
+            natureOfIncidentList = new ConcurrentDictionary<string, int>();
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void BtnMsgInput(object sender, RoutedEventArgs e)
         {
             string msgID = msgHeader.Text;
             string msgType = msgID.Substring(0, 1);
@@ -49,7 +54,7 @@ namespace ELM
             {
                 MessageBox.Show("Message Header must begin with either E, S or T.");
             }
-            else if (!int.TryParse(msgID.Substring(1, 9), out int result))
+            else if (!int.TryParse(msgID.Substring(1, 9), out _))
             {
                 MessageBox.Show("Message Header must have E, S or T followed by 9 numbers.");
             }
@@ -57,29 +62,47 @@ namespace ELM
             {
                 try
                 {
-                    Msg msg = MsgHandler.ProcessData(msgID, bodyMsg);
-                    string jsonData = JSONFormatter.StoreJSON(msg);
+                    Msg msg = msgHandler.ProcessData(msgID, bodyMsg);
+                    string jsonData = jSONFormatter.StoreJSON(msg);
                     msgOutput.Text = jsonData;
+                    if (msg.Type == MsgType.Email)
+                    {
+                        string[] noiList = bodyMsg.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
+                        if (noiList[1].StartsWith("SIR"))
+                        {
+                            for (int j = 3; j < 4; j++)
+                            {
+                                natureOfIncidentList.AddOrUpdate(noiList[j].Trim(), 1, (noi, count) => count + 1);
+                            }
+                        }
+                        string noiTxt = "";
+                        foreach ((string noi, int count) in natureOfIncidentList)
+                        {
+                            noiTxt += noi + " " + count + Environment.NewLine;
+                        }
+                        natureOfIncident.Text = noiTxt;
+
+                    }
                     if (msg.Type == MsgType.Tweet)
                     {
-                        int ht = 0;
-                        string[] mntHT = bodyMsg.Split(new string[] { " ", "\r", "\n" }, StringSplitOptions.None);
+                        string[] mntHT = bodyMsg.Split(new string[] { " ", Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
                         for (int i = 1; i < mntHT.Length; i++)
                         {
-                            if (trending.Text.Contains(mntHT[i]))
-                            {
-                                ht ++; // need to fix
-                            }
                             if (mntHT[i].StartsWith("@"))
                             {
                                 mentions.Text += mntHT[i].Trim() + "; ";
                             }
                             if (mntHT[i].StartsWith("#"))
                             {
-                                trending.Clear();
-                                trending.Text += mntHT[i].Trim() + " " + ht + "; ";
+                                trendingList.AddOrUpdate(mntHT[i].Trim(), 1, (hashtag, count) => count + 1);
                             }
                         }
+                        string trendingTxt = "";
+                        foreach ((string hash, int count) in trendingList)
+                        {
+                            trendingTxt += hash + " " + count + "; ";
+                        }
+                        trending.Text = trendingTxt;
                     }
                 }
                 catch (Exception ex)
@@ -89,11 +112,17 @@ namespace ELM
             }
         }
 
-        private void Button_Click_1(object sender, RoutedEventArgs e)
+        private void BtnMsgSelect(object sender, RoutedEventArgs e)
         {
-            string msgID = msgHeader.Text;
-            string loadMsg = JSONFormatter.DisplayJSON(msgID);
-            msgOutput.Text = loadMsg;
+            try
+            {
+                string msgID = msgHeader.Text;
+                msgOutput.Text = jSONFormatter.DisplayJSON(msgID);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
     }
 }

@@ -8,12 +8,18 @@ namespace ELM.MsgData
 {
     public class MsgHandler : Msg
     {
-        public TextFormatter TextFormatter;
+        public TextFormatter textFormatter;
 
+        /// <summary>
+        /// Takes a message id and message content, and passes it onto the corresponding message type processor.
+        /// </summary>
+        /// <param name="msgID"></param>
+        /// <param name="msgBody"></param>
+        /// <returns></returns>
         public Msg ProcessData(string msgID, string msgBody)
         {
-            string msgType = msgID.Substring(0,1);
-            int id = int.Parse(msgID.Substring(1,9));
+            string msgType = msgID.Substring(0, 1);
+            int id = int.Parse(msgID.Substring(1, 9));
 
             MsgType type = MsgTypes.FromStr(msgType);
 
@@ -35,6 +41,12 @@ namespace ELM.MsgData
             }
         }
 
+        /// <summary>
+        /// Takes in Email object and string values, using the Email input, it assigns values through the getters and setters.
+        /// </summary>
+        /// <param name="input"></param>
+        /// <param name="content"></param>
+        /// <returns></returns>
         public Email ProcessEmail(Email input, string content)
         {
             if (!content.Contains("@"))
@@ -55,22 +67,22 @@ namespace ELM.MsgData
             {
                 throw new Exception("Incident reports need a centre code and a nature of incident report label.");
             }
-            string[] msg = content.Split(new string[] { "\r", "\n" }, StringSplitOptions.None);
+            string[] msg = content.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries);
             input.Address = msg[0];
-            input.SbjLine = msg[2];
-            if (msg[2].Length > 20)
+            input.SbjLine = msg[1];
+            if (msg[1].Length > 20)
             {
                 throw new Exception("Subject line has a maximum of 20 characters.");
             }
 
             StringBuilder msgTxt = new StringBuilder();
-            for (int i = 3; i < msg.Length; i++)
+            for (int i = 2; i < msg.Length; i++)
             {
                 msgTxt.AppendLine(msg[i]);
             }
 
             input.URL = new List<string>();
-            string[] urls = msgTxt.ToString().Split(new string[] { " ", "\r", "\n" }, StringSplitOptions.None);
+            string[] urls = msgTxt.ToString().Split(new string[] { " ", Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
             for (int i = 0; i < urls.Length; i++)
             {
                 if (urls[i].Trim().StartsWith("www.") || urls[i].Trim().StartsWith("http"))
@@ -105,43 +117,64 @@ namespace ELM.MsgData
             }
             else
             {
-                string centreCode = msg[4].Trim();
-                string noi = msg[6].Trim();
+                string centreCode = msg[2].Trim();
+                string noi = msg[3].Trim();
                 input.EmailType = EmailType.SIR;
-                input.NoI = new SIRInfo();
+                input.NoI = new NoIInfo();
                 input.NoI.CentreCode = centreCode;
-                input.NoI.Type = SIR.SetSIR(noi);
+                input.NoI.Type = NoI.SetNoI(noi);
                 return input;
             }
         }
 
+        /// <summary>
+        /// Helper function for ProcessSMS method, checks if string num is a string of ints.
+        /// </summary>
+        /// <param name="str"></param>
+        /// <returns></returns>
+        public bool IsDigitsOnly(string str)
+        {
+            foreach (char c in str)
+            {
+                if (c < '0' || c > '9')
+                    return false;
+            }
+            return true;
+        }
+
+        /// <summary>
+        /// Takes in SMS object and string values, using the SMS input, it assigns values through the getters and setters.
+        /// </summary>
+        /// <param name="input"></param>
+        /// <param name="content"></param>
+        /// <returns></returns>
         public SMS ProcessSMS(SMS input, string content)
         {
-            TextFormatter = new TextFormatter();
+            textFormatter = new TextFormatter();
 
-            if (!content.Contains("\n"))
+            if (!content.Contains(Environment.NewLine))
             {
                 throw new Exception("SMS must have a sender number and message separated by a new line.");
             }
             if (!content.StartsWith("+"))
             {
-                throw new Exception("SMS must have an international number beginning with +.");
+                throw new Exception("SMS must have a international number beginning with +.");
             }
-            string[] msg = content.Split(new string[] { " ", "\r", "\n" }, StringSplitOptions.None);
+            string[] msg = content.Split(new string[] { " ", Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
             string num = msg[0].Replace("+", "");
-            if(num.Length > 15 || num.Length < 8)
+            if (num.Length > 15 || num.Length < 8 || !IsDigitsOnly(num))
             {
                 throw new Exception("Not a valid international number.");
-            } 
+            }
             else
             {
                 input.InternationalNumber = num;
             }
-            
+
             StringBuilder msgTxt = new StringBuilder();
             for (int i = 1; i < msg.Length; i++)
             {
-                msgTxt.AppendLine(msg[i]);
+                msgTxt.AppendLine(msg[i].Trim());
             }
             if (msgTxt.Length > 140)
             {
@@ -149,17 +182,23 @@ namespace ELM.MsgData
             }
             else
             {
-                input.SMSBody = TextFormatter.FormatMsg(msgTxt.ToString());
+                input.SMSBody = textFormatter.FormatMsg(msgTxt.ToString());
             }
-            
+
             return input;
         }
 
+        /// <summary>
+        /// Takes in Tweet object and string values, using the Tweet input, it assigns values through the getters and setters.
+        /// </summary>
+        /// <param name="input"></param>
+        /// <param name="content"></param>
+        /// <returns></returns>
         public Tweet ProcessTweet(Tweet input, string content)
         {
-            TextFormatter = new TextFormatter();
+            textFormatter = new TextFormatter();
 
-            if (!content.Contains("\n"))
+            if (!content.Contains(Environment.NewLine))
             {
                 throw new Exception("Tweet must have a Twitter ID and tweet separated by a new line.");
             }
@@ -167,7 +206,7 @@ namespace ELM.MsgData
             {
                 throw new Exception("Tweet must have a Twitter ID beginning with @.");
             }
-            string[] msg = content.Split(new string[] { " ", "\r", "\n" }, StringSplitOptions.None);
+            string[] msg = content.Split(new string[] { " ", Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
             if (msg[0].Length > 15)
             {
                 throw new Exception("Not a valid Twitter ID.");
@@ -180,7 +219,7 @@ namespace ELM.MsgData
             StringBuilder msgTxt = new StringBuilder();
             for (int i = 1; i < msg.Length; i++)
             {
-                msgTxt.AppendLine(msg[i]);
+                msgTxt.AppendLine(msg[i].Trim());
             }
             if (msgTxt.Length > 140)
             {
@@ -188,12 +227,12 @@ namespace ELM.MsgData
             }
             else
             {
-                input.TweetBody = TextFormatter.FormatMsg(msgTxt.ToString());
+                input.TweetBody = textFormatter.FormatMsg(msgTxt.ToString());
             }
 
             input.Mentions = new List<string>();
             input.Hashtags = new List<string>();
-            string[] mentionHastag = msgTxt.ToString().Split(new string[] { " ", "\r", "\n" }, StringSplitOptions.None);
+            string[] mentionHastag = msgTxt.ToString().Split(new string[] { " ", Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
             for (int i = 0; i < mentionHastag.Length; i++)
             {
                 if (mentionHastag[i].StartsWith("@"))
