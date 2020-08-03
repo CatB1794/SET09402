@@ -84,7 +84,7 @@ namespace ELM.MsgData.Tests
         {
             string nl = Environment.NewLine;
             string address = "EustonLeisure@SportCentres.org";
-            string sbjLine = "SIR 01/08/2020";
+            string sbjLine = "SIR 01/08/20";
             string centreCode = "31-728-90";
             string sir = "Suspicious Incident";
             string emBody = String.Format("{1}{0}{2}{0}Incident occurred out of hours.", nl, centreCode, sir);
