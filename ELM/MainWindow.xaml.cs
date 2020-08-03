@@ -114,6 +114,7 @@ namespace ELM
 
         private void BtnMsgSelect(object sender, RoutedEventArgs e)
         {
+            msgBody.Clear();
             try
             {
                 string msgID = msgHeader.Text;
