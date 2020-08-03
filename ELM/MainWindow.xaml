@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ELM"
         mc:Ignorable="d"
-        Title="MainWindow" Height="410" Width="1055">
+        Title="ELM" Height="410" Width="1055">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition/>

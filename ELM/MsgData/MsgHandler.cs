@@ -109,7 +109,7 @@ namespace ELM.MsgData
                 input.EmailBody = msgTxt.ToString();
             }
 
-            if (!input.SbjLine.Contains("SIR"))
+            if (!input.SbjLine.StartsWith("SIR"))
             {
                 input.EmailType = EmailType.Standard;
                 input.NoI = null;
@@ -117,7 +117,16 @@ namespace ELM.MsgData
             }
             else
             {
+                string sbjLine = input.SbjLine;
+                if (!sbjLine.StartsWith("SIR ") || !IsDigitsOnly(sbjLine.Substring(4,2)) || !sbjLine.Substring(6,1).Contains("/") || !IsDigitsOnly(sbjLine.Substring(7, 2)) || !sbjLine.Substring(9, 1).Contains("/") || !IsDigitsOnly(sbjLine.Substring(10, 2)) || sbjLine.Length > 12)
+                {
+                    throw new Exception("SIR subject line must be in the format of: SIR dd/mm/yy");
+                }
                 string centreCode = msg[2].Trim();
+                if (!IsDigitsOnly(centreCode.Substring(0, 2)) || !centreCode.Substring(2, 1).Contains("-") || !IsDigitsOnly(centreCode.Substring(3, 3)) || !centreCode.Substring(6, 1).Contains("-") || !IsDigitsOnly(centreCode.Substring(7, 2)) || centreCode.Length > 9)
+                {
+                    throw new Exception("Centre code must be in the format of: nn-nnn-nn (n is a number).");
+                }
                 string noi = msg[3].Trim();
                 input.EmailType = EmailType.SIR;
                 input.NoI = new NoIInfo();
@@ -128,7 +137,7 @@ namespace ELM.MsgData
         }
 
         /// <summary>
-        /// Helper function for ProcessSMS method, checks if string num is a string of ints.
+        /// Helper function for checking if a string is a string of ints.
         /// </summary>
         /// <param name="str"></param>
         /// <returns></returns>
