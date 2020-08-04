@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Text.Json;
-using System.Text.Json.Serialization;
-using System.Windows;
 
 namespace ELM.MsgData
 {
@@ -42,14 +37,14 @@ namespace ELM.MsgData
         }
 
         /// <summary>
-        /// Reads the JSON file into a string using the id value passed.
+        /// Reads the text file into a string using the id value passed.
         /// Once done, the string will be passed onto the json deserialise parser, which is then be used to reformat the JSON into the original message input.
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
         public string DisplayJSON(string id)
         {
-            string jsonRead = File.ReadAllText(id + ".json");
+            string jsonRead = File.ReadAllText(id + ".txt");
             string nl = Environment.NewLine;
             string jsonIn = "";
 
