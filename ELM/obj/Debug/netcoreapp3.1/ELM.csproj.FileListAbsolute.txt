@@ -73,3 +73,4 @@ C:\Users\Chat\Documents\Chat\Uni\SE Y3\ELMApp\ELM\obj\Debug\netcoreapp3.1\ELM.cs
 C:\Users\Chat\Documents\Chat\Uni\SE Y3\ELMApp\ELM\obj\Debug\netcoreapp3.1\ELM.dll
 C:\Users\Chat\Documents\Chat\Uni\SE Y3\ELMApp\ELM\obj\Debug\netcoreapp3.1\ELM.pdb
 C:\Users\Chat\Documents\Chat\Uni\SE Y3\ELMApp\ELM\obj\Debug\netcoreapp3.1\ELM.genruntimeconfig.cache
+C:\Users\Chat\Documents\Chat\Uni\SE Y3\ELMApp\ELM\obj\Debug\netcoreapp3.1\ELM.csprojAssemblyReference.cache
