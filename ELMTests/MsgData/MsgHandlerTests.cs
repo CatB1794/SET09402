@@ -1,10 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using ELM.MsgData;
 using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Text.Encodings.Web;
-using System.Text.Json;
 
 namespace ELM.MsgData.Tests
 {
