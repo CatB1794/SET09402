@@ -56,10 +56,8 @@ namespace ELM
                         string[] noiList = bodyMsg.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
                         if (noiList[1].StartsWith("SIR"))
                         {
-                            for (int j = 3; j < 4; j++)
-                            {
-                                natureOfIncidentList.AddOrUpdate(noiList[j].Trim(), 1, (noi, count) => count + 1);
-                            }
+                            string listNoI = noiList[2] + "-" + noiList[3];
+                            natureOfIncidentList.AddOrUpdate(listNoI.Trim(), 1, (noi, count) => count + 1);
                         }
                         string noiTxt = "";
                         foreach ((string noi, int count) in natureOfIncidentList)
