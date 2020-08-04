@@ -1,23 +1,8 @@
 ﻿using System;
-using System.CodeDom;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using ELM.MsgData;
-using Microsoft.Win32;
 
 namespace ELM
 {
@@ -65,6 +50,7 @@ namespace ELM
                     Msg msg = msgHandler.ProcessData(msgID, bodyMsg);
                     string jsonData = jSONFormatter.StoreJSON(msg);
                     msgOutput.Text = jsonData;
+                    File.WriteAllText(msg.Type.ToString() + msg.MsgID + ".txt", msgOutput.Text);
                     if (msg.Type == MsgType.Email)
                     {
                         string[] noiList = bodyMsg.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);

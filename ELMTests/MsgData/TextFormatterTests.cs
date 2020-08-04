@@ -1,8 +1,4 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using ELM.MsgData;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace ELM.MsgData.Tests
 {

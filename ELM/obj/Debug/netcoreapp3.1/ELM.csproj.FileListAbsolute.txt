@@ -69,8 +69,7 @@ C:\Users\Chat\Documents\Chat\Uni\SE Y3\ELMApp\ELM\obj\Debug\netcoreapp3.1\MainWi
 C:\Users\Chat\Documents\Chat\Uni\SE Y3\ELMApp\ELM\obj\Debug\netcoreapp3.1\ELM.g.resources
 C:\Users\Chat\Documents\Chat\Uni\SE Y3\ELMApp\ELM\obj\Debug\netcoreapp3.1\ELM.AssemblyInfoInputs.cache
 C:\Users\Chat\Documents\Chat\Uni\SE Y3\ELMApp\ELM\obj\Debug\netcoreapp3.1\ELM.AssemblyInfo.cs
+C:\Users\Chat\Documents\Chat\Uni\SE Y3\ELMApp\ELM\obj\Debug\netcoreapp3.1\ELM.csproj.CoreCompileInputs.cache
 C:\Users\Chat\Documents\Chat\Uni\SE Y3\ELMApp\ELM\obj\Debug\netcoreapp3.1\ELM.dll
 C:\Users\Chat\Documents\Chat\Uni\SE Y3\ELMApp\ELM\obj\Debug\netcoreapp3.1\ELM.pdb
 C:\Users\Chat\Documents\Chat\Uni\SE Y3\ELMApp\ELM\obj\Debug\netcoreapp3.1\ELM.genruntimeconfig.cache
-C:\Users\Chat\Documents\Chat\Uni\SE Y3\ELMApp\ELM\obj\Debug\netcoreapp3.1\ELM.csproj.CoreCompileInputs.cache
-C:\Users\Chat\Documents\Chat\Uni\SE Y3\ELMApp\ELM\obj\Debug\netcoreapp3.1\ELM.csprojAssemblyReference.cache
